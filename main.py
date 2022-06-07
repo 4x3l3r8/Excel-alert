@@ -2,6 +2,7 @@ import gui
 import pandas as pd
 import os
 import sys
+from datetime import *
 from openpyxl import load_workbook
 
 file = gui.copy_file()
@@ -15,11 +16,27 @@ if file != "cancel" and file != False:
     # initialise unpaid persons array
     unpaid_persons = []
 
-    # print(df)
+    # === === === === Get Unpaid People === === === ===
     for i in range(len(df)):
         if df.loc[i, "Paid"] == False:
             unpaid_persons.append(df.loc[i])
 
-    print(pd.DataFrame(unpaid_persons))
+    # initialise unpaid persons expiry dates array
+    unpaid_persons_expiry_date = []
 
+    # === === === === from unpaid people, get Due date=== === === ===
+    unpaid_persons_df = pd.DataFrame(unpaid_persons)
+    for index, row in unpaid_persons_df.iterrows():
+        if row["Due Date"] <= datetime.now():
+            unpaid_persons_expiry_date.append(row)
+
+    unpaid_persons_expiry_date_df = pd.DataFrame(unpaid_persons_expiry_date)
     
+    # === === === === Trigger Notification based on results === === === ===
+    Notification_text = ""
+    
+    for index, row in unpaid_persons_expiry_date_df.iterrows():
+        Notification_text = f"{row['Description']} and {len(unpaid_persons_expiry_date_df) - 1} others are due for payment {row['Due Date']}\n"
+        
+    # Fire notification
+    gui.notify(Notification_text)
