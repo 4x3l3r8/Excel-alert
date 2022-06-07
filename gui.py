@@ -38,3 +38,22 @@ def copy_file():
                 return False
         else:
             break
+
+def notify(msg):
+    sg.theme("black")
+    layout = [
+        [sg.T("")],
+        [sg.Text(msg)],
+        [sg.Ok("Ok")],
+    ]
+
+    ###Building Window
+    window = sg.Window("Notification", layout, size=(600, 150))
+
+    # Event Loop to process "events" and get the "values" of the inputs
+    while True:
+        event, values = window.read()
+        if event == sg.WIN_CLOSED or event == "Ok":  # if user closes window or clicks cancel
+            break
+        else:
+            break
