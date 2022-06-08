@@ -3,7 +3,9 @@ import pandas as pd
 import os
 import sys
 from datetime import *
-from openpyxl import load_workbook
+
+if not os.path.exists(f"{os.getcwd()}\data"):
+    os.mkdir(f"{os.getcwd()}\data")
 
 file = gui.copy_file()
 if file != "cancel" and file != False:
