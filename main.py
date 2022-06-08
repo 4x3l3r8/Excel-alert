@@ -3,11 +3,23 @@ import pandas as pd
 import os
 import sys
 from datetime import *
-from openpyxl import load_workbook
 
-file = gui.copy_file()
+if not os.path.exists(f"{os.getcwd()}\data"):
+    os.mkdir(f"{os.getcwd()}\data")
+    file_found = False
+    file = gui.copy_file()
+else:
+    file_found = True
+    file = open(f"{os.getcwd()}\data\path_to_file.txt", "r").read().split()[0]
+    # print(file)
+
+# file = gui.copy_file()
 if file != "cancel" and file != False:
     print("file in dir: ", file)
+    if file_found == False:
+        with open(f"{os.getcwd()}\data\path_to_file.txt", "w") as f:
+            f.write(f"{file} \n")
+            f.close()
 
     # === === === === Extract data from file into dataframe === === === ===
     data = pd.read_excel(file)
@@ -36,7 +48,7 @@ if file != "cancel" and file != False:
     Notification_text = ""
     
     for index, row in unpaid_persons_expiry_date_df.iterrows():
-        Notification_text = f"{row['Description']} and {len(unpaid_persons_expiry_date_df) - 1} others are due for payment {row['Due Date']}\n"
+        Notification_text = f"{row['Description']} and {len(unpaid_persons_expiry_date_df) - 1} others are due for payment since {row['Due Date']}\n"
         
     # Fire notification
     gui.notify(Notification_text)
