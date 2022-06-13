@@ -2,13 +2,18 @@ import PySimpleGUI as sg
 from shutil import copyfile
 import os
 
-
+sg.theme("white")
 def copy_file():
-    sg.theme("black")
-    layout = [
-        [sg.T("")],
+    
+    layout_to_center = [
         [sg.Text("Choose a file: "), sg.Input(key="-In-"), sg.FileBrowse(key="-file-")],
         [sg.Ok("Submit"), sg.Cancel()],
+    ]
+
+    layout = [
+        [sg.VPush()],
+        [sg.Push(), sg.Column(layout_to_center, element_justification="c"), sg.Push()],
+        [sg.VPush()],
     ]
 
     ###Building Window
@@ -39,12 +44,19 @@ def copy_file():
         else:
             break
 
+
 def notify(msg):
-    sg.theme("black")
-    layout = [
+    # sg.theme("black")
+    layout_to_center = [
         [sg.T("")],
         [sg.Text(msg)],
         [sg.Ok("Ok")],
+    ]
+    
+    layout = [
+        [sg.VPush()],
+        [sg.Push(), sg.Column(layout_to_center, element_justification="c"), sg.Push()],
+        [sg.VPush()],
     ]
 
     ###Building Window
@@ -53,7 +65,9 @@ def notify(msg):
     # Event Loop to process "events" and get the "values" of the inputs
     while True:
         event, values = window.read()
-        if event == sg.WIN_CLOSED or event == "Ok":  # if user closes window or clicks cancel
+        if (
+            event == sg.WIN_CLOSED or event == "Ok"
+        ):  # if user closes window or clicks cancel
             break
         else:
             break
