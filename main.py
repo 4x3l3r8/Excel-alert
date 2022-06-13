@@ -4,8 +4,9 @@ import os
 import sys
 from datetime import *
 
-if not os.path.exists(f"{os.getcwd()}\data"):
-    os.mkdir(f"{os.getcwd()}\data")
+if not os.path.isfile(f"{os.getcwd()}\data\path_to_file.txt"):
+    if not os.path.exists(f"{os.getcwd()}\data"):
+        os.mkdir(f"{os.getcwd()}\data")
     file_found = False
     file = gui.copy_file()
 else:
