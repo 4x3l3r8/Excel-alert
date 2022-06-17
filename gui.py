@@ -28,13 +28,16 @@ def copy_file():
             return "cancel"
         elif event == "Submit":
             print(values["-file-"])
+            username = os.getlogin()
+            getWD=rf"C:\Users\{username}\Desktop\data"
             source = rf'{values["-file-"]}'
-            destination = f"{os.getcwd()}\data\{os.path.basename(source)}"
+            destination = f"{getWD}\{os.path.basename(source)}"
             try:
                 copyfile(source, destination)
                 # print(f'Current working directory: {getcwd()}')
                 print("File copied successfully.")
-                return destination
+                # return destination
+                return source
             except Exception as e:
                 print("Failed to copy file. Error: %s" % e)
                 sg.popup_error_with_traceback(
@@ -50,7 +53,7 @@ def notify(msg):
     layout_to_center = [
         [sg.T("")],
         [sg.Text(msg)],
-        [sg.Ok("Ok")],
+        [sg.Ok("Ok", size=(10, 1))],
     ]
     
     layout = [
@@ -60,7 +63,7 @@ def notify(msg):
     ]
 
     ###Building Window
-    window = sg.Window("Notification", layout, size=(600, 150))
+    window = sg.Window("Notification", layout)
 
     # Event Loop to process "events" and get the "values" of the inputs
     while True:
